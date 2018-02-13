@@ -6,6 +6,7 @@ app = Flask(__name__)
 secret = os.environ['secret']
 bot_id = os.environ['bot_id']
 send_message_url = "https://api.telegram.org/bot" + bot_id + "/sendMessage"
+niksi_url = os.environ['niksi_url']
 
 @app.route("/")
 def testing():
@@ -19,7 +20,11 @@ def handleMessage():
     sender_name = message_json['message']['from']['first_name']
 
     if text_message == "/moro":
-        r = requests.get(send_message_url, params = {'chat_id' : chat_id, 'text': "moro " + sender_name + " :D"})
+        requests.get(send_message_url, params = {'chat_id' : chat_id, 'text': "moro " + sender_name + " :D"})
 
-    return "message handled"
+    if text_message == "/niksi":
+        niksi_response = requests.get(niksi_url)
+        requests.get(send_message_url, params = {'chat_id' : chat_id, 'text': niksi_response.text})
+
+    return "Viesti käsitelty"
 
