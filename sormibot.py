@@ -20,11 +20,14 @@ def handleMessage():
     sender_name = message_json['message']['from']['first_name']
 
     if text_message == "/moro":
-        requests.get(send_message_url, params = {'chat_id' : chat_id, 'text': "moro " + sender_name + " :D"})
-
+        send_message(chat_id, "moro " + sender_name + " :D")
+        
     if text_message == "/niksi":
         niksi_response = requests.get(niksi_url)
-        requests.get(send_message_url, params = {'chat_id' : chat_id, 'text': niksi_response.text})
+        send_message(chat_id, niksi_response.text)
 
     return "Viesti käsitelty"
 
+
+def send_message(chat_id, text):
+    requests.get(send_message_url, params = {'chat_id' : chat_id, 'text': text})
